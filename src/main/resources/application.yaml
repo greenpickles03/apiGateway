@@ -15,10 +15,11 @@ spring:
               uri: lb://ecoms
               predicates:
                 - Path=/api/users/**
-            - id: order-service
-              uri: lb://order-service
+            - id: client-location-service
+              uri: lb://client-location-service
               predicates:
-                - Path=/api/orders/**
+                - Path=/api/client-location/**
+
 
 management:
   endpoints:
