@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: apiGateway
+
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: ecoms-auth
+              uri: lb://ecoms
+              predicates:
+                - Path=/api/auth/**
+            - id: ecoms-users
+              uri: lb://ecoms
+              predicates:
+                - Path=/api/users/**
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/api/orders/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    initial-instance-info-replication-interval-seconds: 5
+    registry-fetch-interval-seconds: 5
+
+server:
+  port: 8081
+
+# Must match app.jwt.secret in ecoms application.yaml
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000
